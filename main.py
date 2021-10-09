@@ -1,3 +1,4 @@
+import threading
 import time
 import datetime
 import json
@@ -17,7 +18,7 @@ parser.add_argument("repository", type=str, help="repository name")
 parser.add_argument("updater", type=str, help="updater script path")
 
 
-if __name__ == "__main__":
+def run():
     args = parser.parse_args()
 
     PYTHON_UPDATE_SCRIPT_PATH = pathlib.Path(args.updater)
@@ -56,7 +57,10 @@ if __name__ == "__main__":
                 if last_updated < last_pushed:
                     print(f"[{last_pushed}] remote repository has been updated.")
                     last_updated = last_pushed
-                    os.system(f"python3 {PYTHON_UPDATE_SCRIPT_PATH}")
+                    threading.Thread(target=os.system, args=[f"python3 {PYTHON_UPDATE_SCRIPT_PATH}"]).start()
 
                 time.sleep(10)
 
+
+if __name__ == "__main__":
+    run()
