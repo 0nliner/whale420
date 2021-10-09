@@ -59,6 +59,7 @@ def run():
                     last_updated = last_pushed
                     threading.Thread(target=os.system, args=[f"python3 {PYTHON_UPDATE_SCRIPT_PATH}"]).start()
 
+
                 time.sleep(10)
 
 
